@@ -12,13 +12,18 @@ class News {
         news.forEach((item: NewsArticle, index: number): void => {
             const clone: DocumentFragment = template.content.cloneNode(true) as DocumentFragment;
             const article: HTMLElement = getRequiredElement<HTMLElement>(clone, '.news__item');
-            const photo: HTMLElement = getRequiredElement<HTMLElement>(clone, '.news__meta-photo');
+            const photo: HTMLImageElement = getRequiredElement<HTMLImageElement>(clone, '.news__meta-photo');
             const publishedDate: Date = new Date(item.publishedAt);
 
             if (index % 2 === 1) article.classList.add('alt');
 
-            photo.style.backgroundImage = item.urlToImage ? `url("${item.urlToImage.replace(/"/g, '%22')}")` : '';
-            getRequiredElement<HTMLElement>(clone, '.news__meta-author').textContent = item.author || item.source.name;
+            if (item.urlToImage) {
+                photo.src = item.urlToImage;
+            } else {
+                photo.hidden = true;
+            }
+            const author: string = item.author && !item.author.startsWith('http') ? item.author : item.source.name;
+            getRequiredElement<HTMLElement>(clone, '.news__meta-author').textContent = author;
             getRequiredElement<HTMLElement>(clone, '.news__meta-date').textContent = Number.isNaN(
                 publishedDate.getTime()
             )
@@ -33,6 +38,7 @@ class News {
             link.href = item.url;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
+            link.setAttribute('aria-label', `Read story: ${item.title}`);
 
             fragment.append(clone);
         });

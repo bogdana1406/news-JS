@@ -1,7 +1,16 @@
 import AppLoader from './appLoader';
-import { Endpoint, ErrorCallback, NewsResponse, ResponseCallback, SourcesResponse } from '../../types/news';
+import { Endpoint, ErrorCallback, NewsResponse, NewsSource, ResponseCallback, SourcesResponse } from '../../types/news';
 
 class AppController extends AppLoader {
+    public getPreferredSourceId(sources: ReadonlyArray<NewsSource>): string | undefined {
+        const preferredId: string = this.useMocks ? 'abc-news' : 'bbc-news';
+        return (
+            sources.find((source: NewsSource): boolean => source.id === preferredId)?.id ??
+            sources.find((source: NewsSource): boolean => Boolean(source.id))?.id ??
+            undefined
+        );
+    }
+
     public getSources(callback: ResponseCallback<SourcesResponse>, onError: ErrorCallback): Promise<void> {
         return super.getResp({ endpoint: Endpoint.Sources }, callback, onError);
     }

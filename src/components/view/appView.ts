@@ -7,12 +7,14 @@ export class AppView {
     private readonly news: News;
     private readonly sources: Sources;
     private readonly status: HTMLElement;
+    private readonly selectedSource: HTMLElement;
     private activeSourceId: string | null = null;
 
     public constructor() {
         this.news = new News();
         this.sources = new Sources();
         this.status = getRequiredElement<HTMLElement>(document, '.status');
+        this.selectedSource = getRequiredElement<HTMLElement>(document, '.selected-source');
     }
 
     public drawNews(data: NewsResponse): void {
@@ -35,6 +37,7 @@ export class AppView {
     public setActiveSource(sourceId: string): void {
         this.activeSourceId = sourceId;
         this.sources.setActive(sourceId);
+        this.selectedSource.textContent = this.sources.getName(sourceId);
     }
 
     public setStatus(message: string): void {

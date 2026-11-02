@@ -31,7 +31,7 @@ class App {
         void this.controller.getSources(
             (data: SourcesResponse): void => {
                 this.view.drawSources(data);
-                const firstSourceId: string | null | undefined = data.sources[0]?.id;
+                const firstSourceId: string | undefined = this.controller.getPreferredSourceId(data.sources);
 
                 if (firstSourceId) {
                     this.selectSource(firstSourceId);

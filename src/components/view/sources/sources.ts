@@ -35,6 +35,14 @@ class Sources {
                 button.setAttribute('aria-pressed', String(isActive));
             });
     }
+
+    public getName(sourceId: string): string {
+        const button: HTMLButtonElement | undefined = Array.from(
+            this.container.querySelectorAll<HTMLButtonElement>('.source__item')
+        ).find((item: HTMLButtonElement): boolean => item.dataset.sourceId === sourceId);
+
+        return button?.textContent?.trim() || sourceId;
+    }
 }
 
 export default Sources;
