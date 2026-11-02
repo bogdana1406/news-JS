@@ -12,6 +12,7 @@
         </header>
         <main>
             <div class="sources buttons"></div>
+            <p class="status" role="status" aria-live="polite" hidden></p>
             <div class="news"></div>
         </main>
         <footer>
@@ -21,9 +22,9 @@
         </footer>
 
         <template id="sourceItemTemp">
-            <div class="source__item">
+            <button class="source__item" type="button" aria-pressed="false">
                 <span class="source__item-name"></span>
-            </div>
+            </button>
         </template>
 
         <template id="newsItemTemp">
