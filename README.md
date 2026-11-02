@@ -2,6 +2,8 @@
 
 An adaptive news portal migrated from the [RS School news-JS starter](https://github.com/rolling-scopes-school/news-JS) to strict TypeScript. Browse sources and open the latest stories in a responsive editorial layout.
 
+![The Daily Dispatch desktop preview](docs/preview.jpg)
+
 ## Run locally
 
 ```bash
