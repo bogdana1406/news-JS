@@ -30,10 +30,6 @@ const baseConfig = {
         path: path.resolve(__dirname, './dist'),
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env.API_URL': JSON.stringify(process.env.API_URL || 'https://rss-news-api.onrender.com/'),
-            'process.env.API_KEY': JSON.stringify(process.env.API_KEY || ''),
-        }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
@@ -45,9 +41,21 @@ const baseConfig = {
     ],
 };
 
-module.exports = ({ mode }) => {
+module.exports = ({ mode, demo }) => {
     const isProductionMode = mode === 'prod';
+    const isDemoMode = demo === true || demo === 'true';
+    const apiUrl = isDemoMode
+        ? 'https://rss-news-api.onrender.com/'
+        : process.env.API_URL || 'https://rss-news-api.onrender.com/';
+    const apiKey = isDemoMode ? '' : process.env.API_KEY || '';
     const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
 
-    return merge(baseConfig, envConfig);
+    return merge(baseConfig, envConfig, {
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env.API_URL': JSON.stringify(apiUrl),
+                'process.env.API_KEY': JSON.stringify(apiKey),
+            }),
+        ],
+    });
 };
